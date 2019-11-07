@@ -1,0 +1,67 @@
+
+server:
+  port: 9696
+  servlet:
+    context-path: /auth
+spring:
+  application:
+    name: sba-security
+security:
+  jwt:
+    uri: /login
+    header: Authorization
+    prefix: Bearer
+    expiration: 3600
+    secret: JwtSecretKey
+
+
+
+eureka:
+  client:
+  registerWithEureka: true
+  fetchRegistry: true
+  service-url:
+    defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      #        exclude:
+      base-path: /actuator
+    enabled-by-default: true
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+swagger.enabled: true
+
+
+jwt:
+  tokenHeader: Authorization
+  tokenPrefix: Bearer
+  secret: myjwt
+  expiration: 3600
+  rememberExpiration: 604800
+feign:
+  hystrix:
+    enabled: true
+    command:
+      default:
+        execution:
+          isolation:
+            thread:
+              timeoutInMilliseconds: 30000 #缺省为1000
+
+hystrix:
+  enabled: true
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 30000 #缺省为1000
